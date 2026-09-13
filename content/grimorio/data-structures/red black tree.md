@@ -31,7 +31,8 @@ Al ser un árbol rojo-negro un tipo de árbol binario de búsqueda, hereda todas
 - Un nodo de color rojo no puede tener un hijo de color rojo.
 - Cada camino desde un nodo dado a sus hojas descendientes NIL contiene el mismo número de nodos de color negro.
 ### Representación
-Internamente, está compuesto por nodos que poseen un valor (o clave), un boolean que hace referencia al color que posee, y punteros al hijo izquierdo, hijo derecho y padre del nodo.![Diagrama de un red-black tree](attachments/grimorio/data-structures/red-black-tree.svg)
+Internamente, está compuesto por nodos que poseen un valor (o clave), un booleano que hace referencia al color que posee, y punteros al hijo izquierdo, hijo derecho y padre del nodo.
+![Diagrama de un red-black tree](content/attachments/grimorio/data-structures/red-black-tree.svg)
 ## 2. Operaciones y complejidad
 
 ### Operaciones principales
@@ -190,18 +191,31 @@ class ArbolRojoNegro:
 - Ejemplo de uso típico
 ```python
 arbol = ArbolRojoNegro()
+
 for x in [10, 20, 30, 15, 25, 5]:
-    arbol.insertar(x)
+    arbol.insertar(x)
 
-print(f"Raíz: {arbol.raiz.valor} (Color: {arbol.raiz.color})")
-
+print(f"Raiz: {arbol.raiz.valor} (Color: {arbol.raiz.color})")
+  
 def imprimir(nodo):
-    if nodo:
-        imprimir(nodo.izquierdo)
-        print(f"Valor: {nodo.valor} | Color: {nodo.color}")
-        imprimir(nodo.derecho)
+    if nodo:
+        imprimir(nodo.izquierdo)
+        print(f"Valor: {nodo.valor} | Color: {nodo.color}")
+        imprimir(nodo.derecho)
 
 imprimir(arbol.raiz)
+
+"""
+Salida
+
+Raiz: 20 (Color: negro)
+Valor: 5 | Color: rojo
+Valor: 10 | Color: negro
+Valor: 15 | Color: rojo
+Valor: 20 | Color: negro
+Valor: 25 | Color: rojo
+Valor: 30 | Color: negro
+"""
 ```
 ## 4. Uso y criterio
 ### Casos de uso
