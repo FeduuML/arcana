@@ -32,7 +32,10 @@ Al ser un árbol rojo-negro un tipo de árbol binario de búsqueda, hereda todas
 - Cada camino desde un nodo dado a sus hojas descendientes NIL contiene el mismo número de nodos de color negro.
 ### Representación
 Internamente, está compuesto por nodos que poseen un valor (o clave), un booleano que hace referencia al color que posee, y punteros al hijo izquierdo, hijo derecho y padre del nodo.
+
 ![Diagrama de un red-black tree](content/attachments/grimorio/data-structures/red-black-tree.svg)
+
+---
 ## 2. Operaciones y complejidad
 
 ### Operaciones principales
@@ -51,6 +54,8 @@ Internamente, está compuesto por nodos que poseen un valor (o clave), un boolea
 - Una implementación alternativa que utilice NULL ahorra más memoria, pero modifica la estructura del código al tener que realizar más verificaciones.
 - A diferencia de otros árboles de búsqueda binario, los árboles rojo-negro almacenan un puntero al padre en cada nodo.
 - Si los claves almacenadas son strings, y se desea buscar un elemento, la comparación en cada nodo cuesta O(k), por lo que una operación de búsqueda realmente puede costar O(k log n)
+
+---
 ## 3. Implementación
 
 ### Idea de implementación
@@ -217,6 +222,8 @@ Valor: 25 | Color: rojo
 Valor: 30 | Color: negro
 """
 ```
+
+---
 ## 4. Uso y criterio
 ### Casos de uso
 - Implementación de contenedores de alto rendimiento como Map y Set en C++ y TreeSet en Java.
@@ -245,6 +252,8 @@ Valor: 30 | Color: negro
 ### Señales de reconocimiento
 - Piden “el menor mayor que x”, “el k-ésimo” o “todas las claves en [a, b]”, sobre un conjunto que cambia.
 - Pista inversa: si sólo se pregunta “¿está o no está?”, se puede utilizar una tabla hash en vez de un árbol de búsqueda binario.
+
+---
 ## 5. Relaciones y extensiones
 ### Variantes
 - Left-leaning red-black tree (LLRB): restringe los enlaces rojos al hijo izquierdo y reduce drásticamente el código.
@@ -255,6 +264,8 @@ Valor: 30 | Color: negro
 ### Notas avanzadas
 - Concurrencia: si hay varios hilos intentando modificar el árbol a la vez, no es posible limitar el bloqueo a la rama de la que el nodo forma parte, ya que el rebalanceo puede propagarse hasta la raíz. De esta forma, se deben bloquear porciones grandes del árbol, lo cual puede afectar el paralelismo.
 - Caché: como los nodos del árbol suelen crearse individualmente con new o malloc, terminan dispersos en ubicaciones totalmente inconexas de la memoria RAM. De esta forma, no se cumple el principio de localidad espacial de la memoria caché.
+
+---
 ## 6. Referencias y recursos
 - COR2011 - Chapter 13: Red-Black Trees
 - Kernel de Linux, rbtree: docs.kernel.org/core-api/rbtree.html
