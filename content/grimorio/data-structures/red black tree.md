@@ -9,6 +9,7 @@ alias:
   - árbol
   - binary seach tree
   - BST
+aliases:
 ---
 ## 1. Qué es y cómo funciona
 
@@ -24,7 +25,6 @@ Un árbol binario de búsqueda es un tipo particular de árbol binario que organ
 - El subárbol derecho de un nodo sólo contiene valores (o claves) mayores que el valor de ese nodo.
 
 Al ser un árbol rojo-negro un tipo de árbol binario de búsqueda, hereda todas las propiedades mencionadas anteriormente. Además, posee las siguientes propiedades únicas:
-
 - Cada nodo es de color rojo o negro.
 - La raíz siempre es de color negro.
 - Todas las hojas NIL son de color negro.
@@ -33,7 +33,7 @@ Al ser un árbol rojo-negro un tipo de árbol binario de búsqueda, hereda todas
 ### Representación
 Internamente, está compuesto por nodos que poseen un valor (o clave), un booleano que hace referencia al color que posee, y punteros al hijo izquierdo, hijo derecho y padre del nodo.
 
-![Diagrama de un red-black tree](content/attachments/grimorio/data-structures/red-black-tree.svg)
+![Diagrama de un red-black tree](attachments/grimorio/data-structures/red-black-tree.svg)
 
 ---
 ## 2. Operaciones y complejidad
@@ -43,17 +43,19 @@ Internamente, está compuesto por nodos que poseen un valor (o clave), un boolea
 - `insertar(valor)`: agrega un nuevo elemento al árbol.
 - `eliminar(valor)`: busca y elimina un elemento del árbol, si es que existe.
 ### Complejidad
-- buscar: O(log n)
-- insertar: O(log n)
-- eliminar: O(log n)
-- Espacio: O(n)
+| Operaciones       | Notación Big O |
+| :---------------- | :------------- |
+| `buscar(valor)`   | $O(log n)$     |
+| `insertar(valor)` | $O(log n)$     |
+| `eliminar(valor)` | $O(log n)$     |
+| `Espacio`         | $O(n)$         |
 ### Detalles operativos
 - Si la inserción o borrado de un nodo provoca la violación de las propiedades del árbol rojo-negro, se debe realizar una operación de arreglo de la estructura, que involucra un recoloreo y/o una rotación de los nodos cercanos.
-- Los recoloreos y las rotaciones tienen un costo temporal de O(1)
-- Una implementación clásica utiliza nodos centinela NIL de color negro. Esto simplifica muchísimo las operaciones, pero tiene el costo extra de verificar que los nodos centinelas cumplan con las propiedades.
+- Los recoloreos y las rotaciones tienen un costo temporal de $O(1)$
+- Una implementación clásica utiliza nodos centinela NIL de color negro, a fin de evitar verificaciones especiales de bordes como `if (nodo != NULL)`. Todos los punteros vacíos apuntan a un único objeto `NIL` global, reduciendo líneas de código y condicionales.
 - Una implementación alternativa que utilice NULL ahorra más memoria, pero modifica la estructura del código al tener que realizar más verificaciones.
 - A diferencia de otros árboles de búsqueda binario, los árboles rojo-negro almacenan un puntero al padre en cada nodo.
-- Si los claves almacenadas son strings, y se desea buscar un elemento, la comparación en cada nodo cuesta O(k), por lo que una operación de búsqueda realmente puede costar O(k log n)
+- Si los claves almacenadas son strings, y se desea buscar un elemento, la comparación en cada nodo cuesta $O(k)$, por lo que una operación de búsqueda realmente puede costar $O(k log n)$
 
 ---
 ## 3. Implementación
@@ -193,7 +195,7 @@ class ArbolRojoNegro:
         nodo.padre = hijo_izquierdo
   ```
 
-- Ejemplo de uso típico
+### Ejemplo de uso típico
 ```python
 arbol = ArbolRojoNegro()
 
@@ -229,45 +231,45 @@ Valor: 30 | Color: negro
 - Implementación de contenedores de alto rendimiento como Map y Set en C++ y TreeSet en Java.
 - Planificación de procesos en sistemas operativos para administrar tareas.
 - Gestión del filtrado de paquetes de alta velocidad y de consultas de enrutamiento en red.
-- Optimización de almacenamiento en memoria RAM y de recuperación de datos en almacenes clave-valor utilizando indexación de bases de datos-
+- Indexación en memoria RAM
 ### Cuándo NO usarlo
 - Cuando se requiere acceso aleatorio por índice numérico (conviene usar un array o vector dinámico).
 - Cuando se priorizan grandes cargas iniciales sobre datos ya ordenados.
 - Cuando los datos son estáticos y solo se leen una vez (conviene usar un array ordenado y búsqueda binaria).
 ### Comparaciones
-- vs. AVL: ambos garantizan O(log n) en sus operaciones, pero el AVL es más estricto (la diferencia de altura entre los subárboles izquierdo y derecho de cualquier nodo no puede ser mayor a 1) y realiza la operación de búsqueda un poco más rápido, mientras que el rojo-negro rebalancea menos.
-- vs. Binary Search Tree (BST): si se le insertan datos ya ordenados, el árbol se degenera en una lista enlazada simple provocando que las búsquedas pasen de un tiempo promedio O(log n) al peor caso O(n).
-- vs. B-tree: es un árbol ancho de múltiples vías diseñado para almacenamiento en disco (SSD/HDD) y bases de datos, al contrario del árbol rojo-negro que está pensado para la memoria RAM.
-- vs. Skip List: tiene complejidad esperada equivalente al árbol rojo-negro y código más corto, pero a través de garantías probabilísticas y peor localidad de memoria.
+- **vs. AVL**: ambos garantizan $O(log n)$ en sus operaciones, pero el AVL es más estricto (la diferencia de altura entre los subárboles izquierdo y derecho de cualquier nodo no puede ser mayor a 1) y realiza la operación de búsqueda un poco más rápido, mientras que el rojo-negro rebalancea menos.
+- **vs. Binary Search Tree (BST)**: si se le insertan datos ya ordenados, el árbol se degenera en una [[linked list]] provocando que las búsquedas pasen de un tiempo promedio $O(log n)$ al peor caso $O(n)$.
+- **vs. B-tree**: es un árbol ancho de múltiples vías diseñado para almacenamiento en disco (SSD/HDD) y bases de datos, al contrario del árbol rojo-negro que está pensado para la memoria RAM.
+- **vs. Skip List**: tiene complejidad esperada equivalente al árbol rojo-negro y código más corto, a cambio de garantías probabilísticas y mayor consumo de memoria por nodo.
 ### Ventajas / desventajas
 #### Ventajas
-- Garantiza O(log n) para búsqueda, inserción y eliminación sin importar si los datos ingresan ordenados o en desorden. 
-- Mantiene todos sus elementos ordenados internamente en todo momento, siendo su overhead el almacenamiento de un bit extra por nodo.
-- Requiere como máximo 2 rotaciones en una inserción y 3 en una eliminación, resultando sustancialmente más rápido en escrituras que un árbol AVL.
+- **Garantiza $O(log n)$** para búsqueda, inserción y eliminación sin importar si los datos ingresan ordenados o en desorden. 
+- **Mantiene todos sus elementos ordenados** internamente en todo momento, siendo su overhead el almacenamiento de un bit extra por nodo.
+- **Requiere como máximo 2 rotaciones en una inserción y 3 en una eliminación**, resultando sustancialmente más rápido en escrituras que un árbol AVL.
 #### Desventajas
-- Implementación delicada, sobre todo el borrado, con muchos casos simétricos donde es posible equivocarse.
-- Mala localidad de caché, además de que presenta constantes peores que una tabla hash para la búsqueda de datos.
-- Al ser un árbol más alto, una búsqueda en el peor de los casos puede requerir realizar hasta el doble de comparaciones de nodos que en un árbol AVL de los mismos datos.
-- Si el volumen de modificaciones concurrentes es alto, los árboles rojo-negro no son la mejor alternativa.
+- **Implementación delicada**, sobre todo el borrado, con muchos casos simétricos donde es posible equivocarse.
+- **Mala localidad de caché**, además de que presenta constantes peores que una [[hash table]] para la búsqueda de datos.
+- Al ser un árbol más alto, una búsqueda en el peor de los casos **puede requerir realizar hasta el doble de comparaciones de nodos que en un árbol AVL** de los mismos datos.
+- Si el **volumen de modificaciones concurrentes es alto**, los árboles rojo-negro no son la mejor alternativa.
 ### Señales de reconocimiento
-- Piden “el menor mayor que x”, “el k-ésimo” o “todas las claves en [a, b]”, sobre un conjunto que cambia.
-- Pista inversa: si sólo se pregunta “¿está o no está?”, se puede utilizar una tabla hash en vez de un árbol de búsqueda binario.
+- Piden *“el menor mayor que x”*, *“el k-ésimo”* o *“todas las claves en [a, b]”*, sobre un conjunto que cambia.
+- Pista inversa: si sólo se pregunta *“¿está o no está?”*, se puede utilizar una [[hash table]] en vez de un árbol de búsqueda binario.
 
 ---
 ## 5. Relaciones y extensiones
 ### Variantes
-- Left-leaning red-black tree (LLRB): restringe los enlaces rojos al hijo izquierdo y reduce drásticamente el código.
-- AA tree: reemplaza el modelo de colores por uno de niveles, simplificando la implementación y eliminando casos especiales.
+- **Left-leaning red-black tree (LLRB)**: restringe los enlaces rojos al hijo izquierdo y reduce drásticamente el código.
+- **AA tree**: reemplaza el modelo de colores por uno de niveles, simplificando la implementación y eliminando casos especiales.
 ### Relación con otras estructuras
 - Hereda las propiedades del Binary Search Tree (BST)
 - Puede verse como una representación binaria de un árbol 2-3-4 (un B-Tree de orden 4), ya que cada nodo negro con sus hijos rojos representa un nodo del 2-3-4.
 ### Notas avanzadas
-- Concurrencia: si hay varios hilos intentando modificar el árbol a la vez, no es posible limitar el bloqueo a la rama de la que el nodo forma parte, ya que el rebalanceo puede propagarse hasta la raíz. De esta forma, se deben bloquear porciones grandes del árbol, lo cual puede afectar el paralelismo.
-- Caché: como los nodos del árbol suelen crearse individualmente con new o malloc, terminan dispersos en ubicaciones totalmente inconexas de la memoria RAM. De esta forma, no se cumple el principio de localidad espacial de la memoria caché.
+- **Concurrencia**: si hay varios hilos intentando modificar el árbol a la vez, no es posible limitar el bloqueo a la rama de la que el nodo forma parte, ya que el rebalanceo puede propagarse hasta la raíz. De esta forma, se deben bloquear porciones grandes del árbol, lo cual puede afectar el paralelismo.
+- **Caché**: como los nodos del árbol suelen crearse individualmente con new o malloc, terminan dispersos en ubicaciones totalmente inconexas de la memoria RAM. De esta forma, no se cumple el principio de localidad espacial de la memoria caché.
 
 ---
 ## 6. Referencias y recursos
-- COR2011 - Chapter 13: Red-Black Trees
-- Kernel de Linux, rbtree: docs.kernel.org/core-api/rbtree.html
-- Geek for Geeks. Red Black Tree in Python. Recuperado de: [Red Black Tree in Python - GeeksforGeeks](https://www.geeksforgeeks.org/python/red-black-tree-in-python/) 
-- ByteQuest. (2024, 13 de octubre). Red-Black Tree Visually Explained [Video]. Youtube. [Red-Black Trees Visually Explained](https://www.youtube.com/watch?v=TlfQOdeFy0Y)
+- [[COR2011]] - Chapter 13. Red-Black Trees
+- **Linux Kernel Organization.** _Red-black Trees (rbtree) in Linux_. Linux Kernel Documentation. [https://docs.kernel.org/core-api/rbtree.html](https://docs.kernel.org/core-api/rbtree.html)
+- **GeeksforGeeks.** (2023, 10 de agosto). _Red Black Tree in Python_. [https://www.geeksforgeeks.org/red-black-tree-in-python/](https://www.geeksforgeeks.org/red-black-tree-in-python/)
+- **ByteQuest.** (2024, 13 de octubre). _Red-Black Trees Visually Explained_ [Video]. YouTube. [Red-Black Trees Visually Explained](https://www.youtube.com/watch?v=TlfQOdeFy0Y)
